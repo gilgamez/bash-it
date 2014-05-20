@@ -6,6 +6,9 @@ _vagrant()
     cur="${COMP_WORDS[COMP_CWORD]}"
     prev="${COMP_WORDS[COMP_CWORD-1]}"
     commands="box destroy halt help init package provision reload resume ssh ssh_config status suspend up version"
+    for extra in $(compgen -A function "_vagrant_"); do
+      commands="${commands} $(${extra})"
+    done
 
     if [ $COMP_CWORD == 1 ]
     then
@@ -26,6 +29,10 @@ _vagrant()
               return 0
             ;;
             *)
+              if declare -f -F "_vagrant_${prev}" > /dev/null
+              then
+                COMPREPLY=($(compgen -W "$(_vagrant_${prev})" -- ${cur}))
+              fi
             ;;
         esac
     fi
