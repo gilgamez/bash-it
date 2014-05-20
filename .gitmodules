@@ -1,0 +1,3 @@
+[submodule "custom"]
+	path = custom
+	url = git@bitbucket.org:gilgamez/bash-it-customizations.git
